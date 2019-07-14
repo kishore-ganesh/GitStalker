@@ -83,7 +83,7 @@ if __name__ == "__main__":
     for item in data:
         print_item(item)
 
-    print(data)
+    # print(data)
 
 
 # data = get_data([user]);
