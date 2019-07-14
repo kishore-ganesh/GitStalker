@@ -1,10 +1,14 @@
 # Data is array of responses
 import requests
 import iso8601
+import configparser
+config = configparser.ConfigParser()
+config.read("api_config")
+
 # import argparse
 file_name = "users.config"
 event = "PushEvent"
-token = "token 27ca4db61d54075f034e14997091315a5dbdf878"
+token = config["DEFAULT"]["github_token"]
 def user_events_url(user):
     return "https://api.github.com/users/"+user+"/events"
 
