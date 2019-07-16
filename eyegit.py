@@ -20,13 +20,15 @@ def get_data(users):
             user_events_url(user),
             headers = {'Authorization': token}
         )
-        url = response.links["last"]["url"]
-        last = int(url[url.find("?page=")+len("?page="):])
+        last = 1
+        if('links' in response.links):
+            url = response.links["last"]["url"]
+            last = int(url[url.find("?page=")+len("?page="):])
         response = response.json()
         month = iso8601.parse_date(response[0]["created_at"]).month
         user_data.extend(response)
         page = 2        
-        while(iso8601.parse_date(response[len(response)-1]["created_at"]).month>month-1 and page <= last):
+        while(iso8601.parse_date(response[len(response)-1]["created_at"]).month>month-1 and page < last):
             response = requests.get(
                 user_events_url(user),
                 params = {'page': page},
@@ -98,3 +100,4 @@ if __name__ == "__main__":
 #Name filter problems
 #On Each run, store the results. On next run, just give the diff, i.e filter y dat
 #Let it go back one month
+#Group together commits from same repo
