@@ -82,8 +82,21 @@ if __name__ == "__main__":
 
     for index, item in enumerate(data):
         data[index] = remove_empty(item)
-    for item in data:
-        print_item(item)
+    author_commit = {}
+    for user in data:
+        for item in user:
+            author_key = item["actor"]["login"]                    
+            repo_key = item["repo"]["name"]
+            if author_key not in author_commit:
+                author_commit[author_key] = {}
+            if repo_key not in author_commit[author_key]:
+                author_commit[author_key][repo_key] = 0
+            author_commit[author_key][repo_key] += len(item["payload"]["commits"])
+        
+    for author in author_commit:
+            for repo in author_commit[author]:
+                print("{} has pushed {} commits to {}".format(author, author_commit[author][repo], repo))
+    
 
     # print(data)
 
