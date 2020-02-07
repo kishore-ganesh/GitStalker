@@ -2,11 +2,15 @@
 import requests
 import iso8601
 import configparser
+import os
 config = configparser.ConfigParser()
-config.read("api_config")
+
+current_path = os.path.dirname(__file__)
+api_config_path = os.path.join(current_path, "api_config")
+config.read(api_config_path)
 
 # import argparse
-file_name = "users.config"
+file_name = os.path.join(current_path, "users.config")
 event = "PushEvent"
 token = config["DEFAULT"]["github_token"]
 def user_events_url(user):
